@@ -1,22 +1,46 @@
-# Convex Hull algorithm
-# implement , compare , contrast
-# several testcases/examples (10-100 2d points each)
-# analysis of computational efficiency   (also generalize to asymptotic run-time as N grows very large
+# jarvis march
+#    __
+#  /    \
+#    <--/
 
 import random
+import sys
+
+def print_points(points, cvh):
+    '''display the grid of points'''
+    # empty grid
+    grid = []
+    for i in range(21):
+        grid.append(['. ']*21)
+    # points on grid
+    for p in points:
+        grid[p[0]][p[1]] = '* '
+    # points on convex hull
+    for p in cvh:
+        grid[p[0]][p[1]] = '@ '
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            print(grid[i][j], end='')
+        print()
 
 def orientation(cvh_prev, pt, ep):
-    # if pt left of line from convexhull[-1]<-->ep
-    if counterclockwise:
+    '''check if point pt is more left that ep(potential endpoint) from cvh_prev (recent point on convexhull)'''
+    # d=(x−x1)(y2−y1)−(y−y1)(x2−x1)
+    d = (ep[0]-cvh_prev[0])*(pt[1]-cvh_prev[1]) - (ep[1]-cvh_prev[1])*(pt[0]-cvh_prev[0])
+    # if pt left of line from (cvh_prev)-----(ep)
+    if d == 0:  # collinear
+        return 0
+    elif d>0:     # right side
         return 1
-    return 0
+    elif d<0:     # left side
+        return 2
 
 def convexhull_jarvis_march(points):
     # https://iq.opengenus.org/gift-wrap-jarvis-march-algorithm-convex-hull/
 
     convexhull = []
 
-    # find leftmost point
+    # find left-most point
     p = points[0]
     for point in points:
         if point[0] < p[0]: p = point
@@ -24,25 +48,46 @@ def convexhull_jarvis_march(points):
 
     # go over all the other points
     while True:
-        ep = points[0]      # pick any point to start with
+        # pick any point to start with (except most recent point in convexhull)
+        ep = points[0]
+        while ep == convexhull[-1]:
+            ep = points[random.randint(0,len(points)-1)]
+
         for pt in points:
-            if (ep == convexhull[-1]) or (pt left of line from convexhull[-1]<-->ep):   # if any other point left-er than ep, update ep
+            # if any other point left-er than ep, update ep
+            if orientation(convexhull[-1], pt, ep) == 2:
                 ep = pt
     
-        convexhull.append(ep)   # add next left-most point
+        convexhull.append(ep)   # add next left-most point to the list of vertices in convexhull
 
         # end of convex hull. wrapped around to starting point.
         if convexhull[-1] == convexhull[0]:
             convexhull.pop()
             break
+    
+    return convexhull
 
 
 
 def main():
-    random.seed(7)
+    n = sys.argv[1]     # take seed as cmd arg
+    xmax = 20
+    ymax = 20
+
+    # generate random points
+    random.seed(n)
     points = []
     for i in range(20):
-        points.append( (random.randint(0,20),random.randint(0,20)) )
-    convexhull_jarvis_march(points)
+        point = (random.randint(0,xmax),random.randint(0,ymax))
+        if point not in points:
+            points.append(point)
+    
+    # jarvis march
+    cvh = convexhull_jarvis_march(points)
+
+    # results
+    print(cvh)
+    print_points(points,cvh)
+
 if __name__ == '__main__':
     main()
