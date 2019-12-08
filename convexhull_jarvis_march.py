@@ -18,6 +18,7 @@ def print_points(points, cvh):
     # points on convex hull
     for p in cvh:
         grid[p[0]][p[1]] = '@ '
+    
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             print(grid[i][j], end='')
@@ -25,8 +26,11 @@ def print_points(points, cvh):
 
 def orientation(cvh_prev, pt, ep):
     '''check if point pt is more left that ep(potential endpoint) from cvh_prev (recent point on convexhull)'''
+    # https://math.stackexchange.com/a/274728
+
     # d=(x−x1)(y2−y1)−(y−y1)(x2−x1)
     d = (ep[0]-cvh_prev[0])*(pt[1]-cvh_prev[1]) - (ep[1]-cvh_prev[1])*(pt[0]-cvh_prev[0])
+
     # if pt left of line from (cvh_prev)-----(ep)
     if d == 0:  # collinear
         return 0
@@ -82,7 +86,6 @@ def main():
         if point not in points:
             points.append(point)
     
-    # jarvis march
     cvh = convexhull_jarvis_march(points)
 
     # results
