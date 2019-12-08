@@ -1,0 +1,9 @@
+run python file in terminal
+$ python convexhull_jarvis_march.py
+$ python convexhull_graham_scan.py
+
+OR
+
+run from cmd/powershell and pass in an argument for the random seed (for same random values)
+$ python convexhull_jarvis_march.py 3
+$ python convexhull_graham_scan.py 7

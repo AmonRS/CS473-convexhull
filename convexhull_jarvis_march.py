@@ -40,6 +40,7 @@ def orientation(cvh_prev, pt, ep):
         return 2
 
 def convexhull_jarvis_march(points):
+    '''jarvis march algorithm'''
     # https://iq.opengenus.org/gift-wrap-jarvis-march-algorithm-convex-hull/
 
     convexhull = []
@@ -74,12 +75,13 @@ def convexhull_jarvis_march(points):
 
 
 def main():
-    n = sys.argv[1]     # take seed as cmd arg
+    if len(sys.argv) > 1:
+        n = sys.argv[1]     # take seed as cmd arg
+        random.seed(n)
     xmax = 20
     ymax = 20
 
     # generate random points
-    random.seed(n)
     points = []
     for i in range(20):
         point = (random.randint(0,xmax),random.randint(0,ymax))

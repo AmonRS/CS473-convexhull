@@ -51,6 +51,7 @@ def orientation(cvh_prev, pt, ep):
         return 2
 
 def convexhull_graham_scan(points):
+    '''graham scan algorithm for convex hull'''
     # https://iq.opengenus.org/graham-scan-convex-hull/
     # https://www.algorithm-archive.org/contents/graham_scan/graham_scan.html (for sorting points)
 
@@ -67,12 +68,12 @@ def convexhull_graham_scan(points):
     rfp = points[0]     # reference point
     d = {}
     for p in points[1:]:
-        score = math.atan2(p[1] - rfp[1], p[0] - rfp[0])
+        score = math.atan2(p[1] - rfp[1], p[0] - rfp[0])        # ccw polar angle
         if score in d:
             d[score].append(p)
         else:
             d[score] = [p]
-    n_points = [rfp]
+    n_points = [rfp]            # make new list of sorted points
     for score in sorted(d.keys()):
         if len(d[score]) == 1:
             n_points.append(d[score][0])
@@ -99,12 +100,13 @@ def convexhull_graham_scan(points):
     return convexhull
 
 def main():
-    n = sys.argv[1]     # take seed as cmd arg
+    if len(sys.argv) > 1:
+        n = sys.argv[1]     # take seed as cmd arg
+        random.seed(n)
     xmax = 20
     ymax = 20
 
     # generate random points
-    random.seed(n)
     points = []
     for i in range(20):
         point = (random.randint(0,xmax),random.randint(0,ymax))
