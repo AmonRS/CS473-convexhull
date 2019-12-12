@@ -6,12 +6,12 @@
 import random
 import sys
 
-def print_points(points, cvh):
+def print_points(points, cvh, sz):
     '''display the grid of points'''
     # empty grid
     grid = []
-    for i in range(21):
-        grid.append(['  ']*21)
+    for i in range(sz+1):
+        grid.append(['  ']*(sz+1))
     # points on grid
     for p in points:
         grid[p[0]][p[1]] = '* '
@@ -78,12 +78,13 @@ def main():
     if len(sys.argv) > 1:
         n = sys.argv[1]     # take seed as cmd arg
         random.seed(n)
-    xmax = 20
-    ymax = 20
+    sz = 30
+    xmax = sz
+    ymax = sz
 
     # generate random points
     points = []
-    for i in range(20):
+    for i in range(30):
         point = (random.randint(0,xmax),random.randint(0,ymax))
         if point not in points:
             points.append(point)
@@ -91,8 +92,8 @@ def main():
     cvh = convexhull_jarvis_march(points)
 
     # results
-    print(cvh)
-    print_points(points,cvh)
+    print("convexhull:",cvh)
+    print_points(points,cvh,sz)
 
 if __name__ == '__main__':
     main()

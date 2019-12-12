@@ -4,11 +4,11 @@ import random
 import sys
 import math
 
-def print_n_points(n_points):
+def print_n_points(n_points, sz):
     '''utility function. print grid with order of points.'''
     grid = []
-    for i in range(21):
-        grid.append(['  ']*21)
+    for i in range(sz+1):
+        grid.append(['  ']*(sz+1))
     for k in range(len(n_points)):
         p = n_points[k]
         grid[p[0]][p[1]] = str(k)[-1]+' ' if k<10 else str(k)
@@ -17,12 +17,12 @@ def print_n_points(n_points):
             print(grid[i][j], end='')
         print()
 
-def print_points(points, cvh):
+def print_points(points, cvh, sz):
     '''display the grid of points, showing points on the convex hull'''
     # empty grid
     grid = []
-    for i in range(21):
-        grid.append(['  ']*21)
+    for i in range(sz+1):
+        grid.append(['  ']*(sz+1))
     # points on grid
     for p in points:
         grid[p[0]][p[1]] = '* '
@@ -82,7 +82,7 @@ def convexhull_graham_scan(points):
             for i in tl:
                 n_points.append(i)
 
-    print_n_points(n_points)
+    print_n_points(n_points, 30)
 
     convexhull = []
 
@@ -103,12 +103,13 @@ def main():
     if len(sys.argv) > 1:
         n = sys.argv[1]     # take seed as cmd arg
         random.seed(n)
-    xmax = 20
-    ymax = 20
+    sz = 30
+    xmax = sz
+    ymax = sz
 
     # generate random points
     points = []
-    for i in range(20):
+    for i in range(30):
         point = (random.randint(0,xmax),random.randint(0,ymax))
         if point not in points:
             points.append(point)
@@ -117,7 +118,7 @@ def main():
 
     # results
     print(cvh)
-    print_points(points,cvh)
+    print_points(points,cvh,sz)
 
 if __name__ == '__main__':
     main()
