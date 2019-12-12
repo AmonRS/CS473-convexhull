@@ -8,7 +8,7 @@ def print_n_points(n_points):
     '''utility function. print grid with order of points.'''
     grid = []
     for i in range(21):
-        grid.append(['. ']*21)
+        grid.append(['  ']*21)
     for k in range(len(n_points)):
         p = n_points[k]
         grid[p[0]][p[1]] = str(k)[-1]+' ' if k<10 else str(k)
@@ -22,7 +22,7 @@ def print_points(points, cvh):
     # empty grid
     grid = []
     for i in range(21):
-        grid.append(['. ']*21)
+        grid.append(['  ']*21)
     # points on grid
     for p in points:
         grid[p[0]][p[1]] = '* '

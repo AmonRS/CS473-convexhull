@@ -11,7 +11,7 @@ def print_points(points, cvh):
     # empty grid
     grid = []
     for i in range(21):
-        grid.append(['. ']*21)
+        grid.append(['  ']*21)
     # points on grid
     for p in points:
         grid[p[0]][p[1]] = '* '
